@@ -1,0 +1,241 @@
+#
+# Copyright (C) 2024 Sutin Boris
+# 
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+# --------------------------------------------------------------------------
+#
+
+
+@prefix doap: <http://usefulinc.com/ns/doap#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix lv2: <http://lv2plug.in/ns/lv2core#> .
+@prefix state:   <http://lv2plug.in/ns/ext/state#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix guiext: <http://lv2plug.in/ns/extensions/ui#>.
+@prefix opts:  <http://lv2plug.in/ns/ext/options#> .
+@prefix pprops: <http://lv2plug.in/ns/ext/port-props#>.
+
+<https://github.com/skyhawk#me>
+	a foaf:Person ;
+	foaf:name "Skyhawk" ;
+	foaf:mbox <mailto:sutin.boris@gmail.com> ;
+	rdfs:seeAlso <https://github.com/skyhawk> .
+
+<https://github.com/skyhawk/skhrecord#mono_record>
+    a lv2:Plugin ,
+        lv2:UtilityPlugin ;
+    doap:maintainer <https://github.com/skyhawk#me> ;
+    doap:name "SKHRecorder";
+    doap:license <http://opensource.org/licenses/isc> ;
+    lv2:project <https://github.com/skyhawk/skh_record> ;
+    lv2:optionalFeature lv2:hardRTCapable ;
+    opts:supportedOption <http://ardour.org/lv2/threads/#schedPolicy>;
+    opts:supportedOption <http://ardour.org/lv2/threads/#schedPriority>;
+    lv2:extensionData state:interface ;
+
+    lv2:minorVersion 1;
+    lv2:microVersion 1;
+
+    rdfs:comment """
+    It is intended for recording the signal in an audio file in the *.wav format
+
+    The path for saving files is /var/pipedal/records/, 
+    the file name is formed automatically with reference to the current time. 
+    """;
+
+
+    lv2:port [
+        a lv2:InputPort ,
+            lv2:ControlPort ;
+        lv2:index 0 ;
+        lv2:symbol "THRESHOLD" ;
+        lv2:name "Threshold";
+        lv2:default -70.0;
+        lv2:minimum -90.0 ;
+        lv2:maximum 24.0 ;
+        
+    ] , [
+        a lv2:InputPort ,
+            lv2:ControlPort ;
+        lv2:index 1 ;
+        lv2:symbol "REC" ;
+        lv2:name "REC/STOP";
+        lv2:portProperty lv2:integer, lv2:toggled, pprops:trigger;
+        lv2:default 0.0 ;
+        lv2:minimum 0.0 ;
+        lv2:maximum 1.0 ;
+        rdfs:comment "recorded files goes to ~/var/pipedal/records/";
+    ] , [
+        a lv2:OutputPort ,
+            lv2:ControlPort ;
+        lv2:index 2 ;
+        lv2:symbol "STATE" ;
+        lv2:name "STATE" ;
+        lv2:default 0.0 ;
+        lv2:minimum 0.0 ;
+        lv2:maximum 2.0 ;
+        lv2:portProperty lv2:enumeration ;
+        lv2:scalePoint [rdfs:label "STOP"; rdf:value 0];
+        lv2:scalePoint [rdfs:label "WAIT"; rdf:value 1];
+        lv2:scalePoint [rdfs:label "REC"; rdf:value 2];
+    ], [
+        a lv2:OutputPort ,
+            lv2:ControlPort ;
+        lv2:index 3 ;
+        lv2:symbol "CLIP" ;
+        lv2:name "CLIP";
+        lv2:portProperty lv2:toggled;
+        lv2:portProperty lv2:integer;
+        lv2:default 0.0 ;
+        lv2:minimum 0.0 ;
+        lv2:maximum 1.0 ;
+    ] , [
+        a lv2:OutputPort ,
+            lv2:ControlPort ;
+        lv2:index 4 ;
+        lv2:symbol "LMETER" ;
+        lv2:name "VUMETER" ;
+        lv2:default -70.0 ;
+        lv2:minimum -70.0 ;
+        lv2:maximum 4.0 ;
+    ] , [
+        a lv2:AudioPort ,
+            lv2:OutputPort ;
+        lv2:index 5 ;
+        lv2:symbol "out" ;
+        lv2:name "Out"
+    ] , [
+        a lv2:AudioPort ,
+            lv2:InputPort ;
+        lv2:index 6 ;
+        lv2:symbol "in" ;
+        lv2:name "In" ;
+    ] .
+
+
+
+<https://github.com/skyhawk/skhrecord#stereo_record>
+    a lv2:Plugin ,
+        lv2:UtilityPlugin ;
+    doap:maintainer <https://github.com/skyhawk#me> ;
+    doap:name "SKHRecorder ST";
+    doap:license <http://opensource.org/licenses/isc> ;
+    lv2:project <https://github.com/skyhawk/skhrecord> ;
+    lv2:optionalFeature lv2:hardRTCapable ;
+    opts:supportedOption <http://ardour.org/lv2/threads/#schedPolicy>;
+    opts:supportedOption <http://ardour.org/lv2/threads/#schedPriority>;
+
+    lv2:minorVersion 1;
+    lv2:microVersion 1;
+
+    rdfs:comment """
+    It is intended for recording the signal in an audio file in the *.wav format
+
+    The path for saving files is /var/pipedal/records/, 
+    the file name is formed automatically with reference to the current time. 
+    """;
+
+    lv2:port [
+        a lv2:InputPort ,
+            lv2:ControlPort ;
+        lv2:index 0 ;
+        lv2:symbol "THRESHOLD" ;
+        lv2:name "Threshold";
+        lv2:default -70.0;
+        lv2:minimum -90.0 ;
+        lv2:maximum 24.0 ;
+        
+    ] , [
+        a lv2:InputPort ,
+            lv2:ControlPort ;
+        lv2:index 1 ;
+        lv2:symbol "REC" ;
+        lv2:name "REC/STOP";
+        lv2:portProperty lv2:integer, lv2:toggled, pprops:trigger;
+        lv2:default 0 ;
+        lv2:minimum 0 ;
+        lv2:maximum 1 ;  
+        rdfs:comment "recorded files goes to ~/var/pipedal/records/";
+        
+    ], [
+        a lv2:OutputPort ,
+            lv2:ControlPort ;
+        lv2:index 2 ;
+        lv2:symbol "STATE" ;
+        lv2:name "STATE" ;
+        lv2:default 0.0 ;
+        lv2:minimum 0.0 ;
+        lv2:maximum 2.0 ;
+        lv2:portProperty lv2:enumeration ;
+        lv2:scalePoint [rdfs:label "STOP"; rdf:value 0];
+        lv2:scalePoint [rdfs:label "WAIT"; rdf:value 1];
+        lv2:scalePoint [rdfs:label "REC"; rdf:value 2];
+    ] , [
+        a lv2:OutputPort ,
+            lv2:ControlPort ;
+        lv2:index 3 ;
+        lv2:symbol "CLIP" ;
+        lv2:name "CLIP";
+        lv2:portProperty lv2:toggled;
+        lv2:portProperty lv2:integer;
+        lv2:default 0.0 ;
+        lv2:minimum 0.0 ;
+        lv2:maximum 1.0 ;
+    ] , [
+        a lv2:OutputPort ,
+            lv2:ControlPort ;
+        lv2:index 4 ;
+        lv2:symbol "LMETER" ;
+        lv2:name "L" ;
+        lv2:default -70.0 ;
+        lv2:minimum -70.0 ;
+        lv2:maximum 4.0 ;
+    ] , [
+        a lv2:AudioPort ,
+            lv2:OutputPort ;
+        lv2:index 5 ;
+        lv2:symbol "out" ;
+        lv2:name "Out"
+    ] , [
+        a lv2:AudioPort ,
+            lv2:InputPort ;
+        lv2:index 6 ;
+        lv2:symbol "in" ;
+        lv2:name "In" ;
+    ] , [
+        a lv2:OutputPort ,
+            lv2:ControlPort ;
+        lv2:index 7 ;
+        lv2:symbol "RMETER" ;
+        lv2:name "R" ;
+        lv2:default -70.0 ;
+        lv2:minimum -70.0 ;
+        lv2:maximum 4.0 ;
+    ] , [
+        a lv2:AudioPort ,
+            lv2:OutputPort ;
+        lv2:index 8 ;
+        lv2:symbol "out1" ;
+        lv2:name "Out1"
+    ] , [
+        a lv2:AudioPort ,
+            lv2:InputPort ;
+        lv2:index 9 ;
+        lv2:symbol "in1" ;
+        lv2:name "In1" ;
+    ] .
+
+
