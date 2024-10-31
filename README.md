@@ -15,7 +15,5 @@ Based on https://github.com/brummer10/screcord.lv2
 - libsndfile is needed
 
 ## install:
-- git submodule init
-- git submodule update
 - make
 - make install # will install into /usr/lib/lv2
