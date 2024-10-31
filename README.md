@@ -1,5 +1,5 @@
 <b>SKHRecorder LV2 plugin for writing files in the PiPedal service. </b><br>
-Forked based on https://github.com/brummer10/screcord.lv2
+Based on https://github.com/brummer10/screcord.lv2
 
 - Include a mono and a stereo capture plugin.
 - using libsndfile <a href="http://www.mega-nerd.com/libsndfile/">http://www.mega-nerd.com/libsndfile/</a>
