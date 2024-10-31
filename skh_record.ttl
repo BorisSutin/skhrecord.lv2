@@ -16,8 +16,8 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 # --------------------------------------------------------------------------
 #
-
-
+@prefix atom:   <http://lv2plug.in/ns/ext/atom#> .
+@prefix patch:  <http://lv2plug.in/ns/ext/patch#> .
 @prefix doap: <http://usefulinc.com/ns/doap#> .
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix lv2: <http://lv2plug.in/ns/lv2core#> .
@@ -27,12 +27,23 @@
 @prefix guiext: <http://lv2plug.in/ns/extensions/ui#>.
 @prefix opts:  <http://lv2plug.in/ns/ext/options#> .
 @prefix pprops: <http://lv2plug.in/ns/ext/port-props#>.
+@prefix mod: <http://moddevices.com/ns/mod#> .
+
 
 <https://github.com/skyhawk#me>
 	a foaf:Person ;
 	foaf:name "Skyhawk" ;
 	foaf:mbox <mailto:sutin.boris@gmail.com> ;
 	rdfs:seeAlso <https://github.com/skyhawk> .
+
+
+<@SKHRecorder_LV2_ID@#Tracks>
+    a lv2:Parameter ;
+    mod:fileTypes "audiotrack" ;
+    rdfs:label "Tracks" ;
+    rdfs:range atom:Path .
+
+
 
 <https://github.com/skyhawk/skhrecord#mono_record>
     a lv2:Plugin ,
@@ -45,6 +56,7 @@
     opts:supportedOption <http://ardour.org/lv2/threads/#schedPolicy>;
     opts:supportedOption <http://ardour.org/lv2/threads/#schedPriority>;
     lv2:extensionData state:interface ;
+    
 
     lv2:minorVersion 1;
     lv2:microVersion 1;
@@ -55,7 +67,7 @@
     The path for saving files is /var/pipedal/records/, 
     the file name is formed automatically with reference to the current time. 
     """;
-
+    patch:writable <@SKHRecorder_LV2_ID@#Tracks>;
 
     lv2:port [
         a lv2:InputPort ,
@@ -147,6 +159,7 @@
     The path for saving files is /var/pipedal/records/, 
     the file name is formed automatically with reference to the current time. 
     """;
+    patch:writable <@SKHRecorder_LV2_ID@#Tracks>;
 
     lv2:port [
         a lv2:InputPort ,

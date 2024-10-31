@@ -30,4 +30,3 @@
     lv2:binary <skh_record.so>  ;
     rdfs:seeAlso <skh_record.ttl> .
 
-

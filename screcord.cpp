@@ -276,7 +276,7 @@ namespace screcord
     {
         struct stat sb;
         std::string pPath;
-        pPath = "/var/pipedal/records/";
+        pPath = "/var/pipedal/audio_uploads/shared/audio/Tracks/";
 
         if (!(stat(pPath.c_str(), &sb) == 0 && S_ISDIR(sb.st_mode)))
         {
